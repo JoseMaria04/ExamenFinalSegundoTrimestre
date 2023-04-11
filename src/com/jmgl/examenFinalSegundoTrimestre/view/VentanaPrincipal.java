@@ -30,13 +30,15 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
 
 public class VentanaPrincipal extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField jtfId;
 	private JTextField jtfNombre;
@@ -48,6 +50,7 @@ public class VentanaPrincipal extends JFrame {
 	JComboBox<Vivienda> jcbVivienda;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	JLabel lblNewLabel_12;
+	JCheckBox chckbxNewCheckBox;
 
 	/**
 	 * Launch the application.
@@ -220,7 +223,7 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.add(jtfFechaInicio, gbc_jtfFechaInicio);
 		jtfFechaInicio.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("");
+		chckbxNewCheckBox = new JCheckBox("");
 		chckbxNewCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxNewCheckBox.isSelected()) {
@@ -284,8 +287,7 @@ public class VentanaPrincipal extends JFrame {
 						lblNewLabel_12.setText("" + (1.21 * (Double.parseDouble(jtfCuota.getText()))));
 					}
 					else {
-						lblNewLabel_12.setText("");
-					}
+						lblNewLabel_12.setText("");					}
 				}catch (NumberFormatException o) {
 					
 				}
@@ -372,9 +374,13 @@ public class VentanaPrincipal extends JFrame {
 		this.jtfFechaInicio.setText(sdf.format(i.getFechaInicioAlquiler()));
 		if(i.getFechaFinAlquiler()!= null) {
 			this.jtfFechaFin.setText(sdf.format(i.getFechaFinAlquiler()));
+			chckbxNewCheckBox.setSelected(false);
+			jtfFechaFin.setEnabled(true);
 		}
 		else {
 			this.jtfFechaFin.setText("");
+			chckbxNewCheckBox.setSelected(true);
+			jtfFechaFin.setEnabled(false);
 		}
 		this.jtfCuota.setText("" + i.getCuotaMensual());
 
@@ -419,9 +425,7 @@ public class VentanaPrincipal extends JFrame {
 			if(i.getFechaFinAlquiler()!= null) {
 				o.setFechaFinAlquiler(sdf.parse(this.jtfFechaFin.getText()));
 			}
-			else {
-				o.setFechaFinAlquiler(null);;
-			}
+			
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, "NO HAS PUESTO LA FECHA EN EL FORMATO CORRECTO");			
 		}
